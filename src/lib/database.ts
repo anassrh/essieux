@@ -14,6 +14,7 @@ export async function getEssieux() {
     .from('essieux')
     .select('*')
     .order('created_at', { ascending: false })
+    .limit(1000) // Limite élevée pour récupérer tous les essieux
 
   if (error) {
     throw new Error(`Erreur lors de la récupération des essieux: ${error.message}`)
@@ -76,6 +77,7 @@ export async function getTravailleurs() {
     .from('travailleurs')
     .select('*')
     .order('created_at', { ascending: false })
+    .limit(1000) // Limite élevée pour récupérer tous les travailleurs
 
   if (error) {
     throw new Error(`Erreur lors de la récupération des travailleurs: ${error.message}`)
