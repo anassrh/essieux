@@ -9,7 +9,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -27,7 +27,7 @@ export default function Layout({ children }: LayoutProps) {
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-sm text-gray-600">
-                Connecté en tant que <span className="font-medium text-gray-900">{user?.email}</span>
+                Connecté en tant que <span className="font-medium text-gray-900">YOUNES GUERMAT</span>
               </div>
               <button
                 onClick={signOut}
