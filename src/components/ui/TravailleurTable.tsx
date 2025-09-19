@@ -242,7 +242,7 @@ export default function TravailleurTable({ data, onEdit, onDelete, onAdd }: Trav
             <div>
               <h3 className="text-xl font-semibold text-gray-900">Équipe Technique</h3>
               <p className="text-sm text-gray-600">
-                {filteredData.length} techniciens • {data.filter(t => t.statut === 'actif').length} actifs
+                {filteredData.length} techniciens • {data.filter(t => t.statut === 'ACTIF').length} actifs
               </p>
             </div>
           </div>

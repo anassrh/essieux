@@ -1,6 +1,14 @@
 import { Essieu, Travailleur, StockItem, Panne } from '@/types';
 
-export const mockEssieux: Essieu[] = [
+// Helper function to add timestamps
+const addTimestamps = (item: any): Essieu => ({
+  ...item,
+  created_at: '2024-01-01T00:00:00Z',
+  updated_at: '2024-01-01T00:00:00Z'
+});
+
+// Mock data without timestamps
+const mockEssieuxData = [
   {
     id: '1',
     serie: 9101,
@@ -12,7 +20,7 @@ export const mockEssieux: Essieu[] = [
     wagon: '9310001',
     bogie1: 843,
     bogie2: 7,
-    situation: 'EN EXPLOITATION',
+    situation: 'EN EXPLOITATION' as const,
     age_revision_jours: '4ans2mois23jours',
     age_calage_annee: 18,
     marque: 'SKF'
@@ -163,7 +171,7 @@ export const mockEssieux: Essieu[] = [
   }
 ];
 
-export const mockTravailleurs: Travailleur[] = [
+const mockTravailleursData = [
   {
     id: '1',
     matricule: 'TECH-001',
@@ -302,7 +310,7 @@ export const mockTravailleurs: Travailleur[] = [
   }
 ];
 
-export const mockStockItems: StockItem[] = [
+const mockStockItemsData = [
   {
     id: '1',
     nom: 'Roulement à billes 6205',
@@ -326,7 +334,7 @@ export const mockStockItems: StockItem[] = [
   }
 ];
 
-export const mockPannes: Panne[] = [
+const mockPannesData = [
   {
     id: '1',
     date: '2024-03-01',
@@ -355,3 +363,8 @@ export const mockPannes: Panne[] = [
     notes: ['Équilibrage effectué', 'Problème résolu']
   }
 ];
+
+export const mockEssieux: Essieu[] = mockEssieuxData.map(addTimestamps);
+export const mockTravailleurs: Travailleur[] = mockTravailleursData.map(addTimestamps);
+export const mockStockItems: StockItem[] = mockStockItemsData.map(addTimestamps);
+export const mockPannes: Panne[] = mockPannesData.map(addTimestamps);

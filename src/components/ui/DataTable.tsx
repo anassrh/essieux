@@ -42,11 +42,11 @@ export default function DataTable({
   const sortedData = [...data].sort((a, b) => {
     if (!sortField) return 0;
     
-    const aValue = a[sortField];
-    const bValue = b[sortField];
+    const aValue = (a as Record<string, unknown>)[sortField];
+    const bValue = (b as Record<string, unknown>)[sortField];
     
-    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+    if ((aValue as string) < (bValue as string)) return sortDirection === 'asc' ? -1 : 1;
+    if ((aValue as string) > (bValue as string)) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
 
@@ -99,10 +99,10 @@ export default function DataTable({
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {paginatedData.map((item, index) => (
-              <tr key={item.id || index} className="hover:bg-gray-50">
+              <tr key={(item as Record<string, unknown>).id as string || index} className="hover:bg-gray-50">
                 {columns.map((column) => (
                   <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {column.render ? column.render(item[column.key], item) : item[column.key]}
+                    {column.render ? column.render((item as Record<string, unknown>)[column.key], item) : String((item as Record<string, unknown>)[column.key] || '')}
                   </td>
                 ))}
                 {(onEdit || onDelete) && (
