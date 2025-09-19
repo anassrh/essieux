@@ -147,9 +147,9 @@ export default function PannesPage() {
                 </label>
                 <input
                   type="date"
-                  name="date"
-                  id="date"
-                  value={formData.date}
+                  name="date_detection"
+                  id="date_detection"
+                  value={formData.date_detection}
                   onChange={handleInputChange}
                   required
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -189,7 +189,7 @@ export default function PannesPage() {
                 <option value="">Sélectionner un essieu</option>
                 {mockEssieux.map(essieu => (
                   <option key={essieu.id} value={essieu.id}>
-                    {essieu.numero_ordre} - {essieu.type} ({essieu.localisation})
+                    {essieu.numero_ordre} - {essieu.marque} ({essieu.wagon})
                   </option>
                 ))}
               </select>
@@ -207,7 +207,7 @@ export default function PannesPage() {
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
                 <option value="">Sélectionner un technicien</option>
-                {mockTravailleurs.filter(t => t.statut === 'actif').map(technicien => (
+                {mockTravailleurs.filter(t => t.statut === 'ACTIF').map(technicien => (
                   <option key={technicien.id} value={technicien.id}>
                     {technicien.prenom} {technicien.nom} - {technicien.specialite}
                   </option>

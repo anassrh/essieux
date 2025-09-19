@@ -16,7 +16,7 @@ export default function StockPage() {
     nom: '',
     quantite: 0,
     seuil_minimum: 0,
-    derniere_entree: ''
+    date_derniere_commande: ''
   });
 
   const columns = [
@@ -33,15 +33,16 @@ export default function StockPage() {
       label: 'Seuil minimum'
     },
     {
-      key: 'derniere_entree',
+      key: 'date_derniere_commande',
       label: 'Dernière entrée',
-      render: (value: string) => new Date(value).toLocaleDateString('fr-FR')
+      render: (value: unknown) => new Date(value as string).toLocaleDateString('fr-FR')
     },
     {
       key: 'statut',
       label: 'Statut',
-      render: (value: unknown, item: StockItem) => {
-        const isLowStock = item.quantite <= item.seuil_minimum;
+      render: (value: unknown, item: unknown) => {
+        const stockItem = item as StockItem;
+        const isLowStock = stockItem.quantite <= stockItem.seuil_minimum;
         return (
           <AlertBadge 
             status={isLowStock ? 'Stock faible' : 'Stock normal'} 
@@ -58,20 +59,20 @@ export default function StockPage() {
       nom: '',
       quantite: 0,
       seuil_minimum: 0,
-      derniere_entree: new Date().toISOString().split('T')[0]
+      date_derniere_commande: new Date().toISOString().split('T')[0]
     });
     setIsModalOpen(true);
   };
 
-  const handleEdit = (item: StockItem) => {
-    setEditingItem(item);
-    setFormData(item);
+  const handleEdit = (item: unknown) => {
+    setEditingItem(item as StockItem);
+    setFormData(item as StockItem);
     setIsModalOpen(true);
   };
 
-  const handleDelete = (item: StockItem) => {
+  const handleDelete = (item: unknown) => {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet article du stock ?')) {
-      setStockItems(stockItems.filter(s => s.id !== item.id));
+      setStockItems(stockItems.filter(s => s.id !== (item as StockItem).id));
     }
   };
 
@@ -99,7 +100,7 @@ export default function StockPage() {
       nom: '',
       quantite: 0,
       seuil_minimum: 0,
-      derniere_entree: ''
+      date_derniere_commande: ''
     });
   };
 
@@ -215,14 +216,14 @@ export default function StockPage() {
             </div>
 
             <div>
-              <label htmlFor="derniere_entree" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="date_derniere_commande" className="block text-sm font-medium text-gray-700">
                 Dernière entrée
               </label>
               <input
                 type="date"
-                name="derniere_entree"
-                id="derniere_entree"
-                value={formData.derniere_entree}
+                name="date_derniere_commande"
+                id="date_derniere_commande"
+                value={formData.date_derniere_commande}
                 onChange={handleInputChange}
                 required
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
