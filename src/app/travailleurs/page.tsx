@@ -71,8 +71,8 @@ export default function TravailleursPage() {
         setTravailleurs([newTravailleur, ...travailleurs]);
       }
       
-      setIsModalOpen(false);
       setEditingTravailleur(null);
+      // Le modal sera fermé par le composant modal lui-même
     } catch (err) {
       console.error('Erreur lors de la sauvegarde:', err);
       throw err; // Re-throw pour que le modal puisse afficher l'erreur

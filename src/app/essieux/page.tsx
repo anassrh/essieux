@@ -72,8 +72,8 @@ export default function EssieuxPage() {
       }
       
       await loadEssieux(); // Recharger les données
-      setIsModalOpen(false); // Fermer le modal après succès
       setEditingEssieu(null); // Reset editing state
+      // Le modal sera fermé par le composant modal lui-même
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors de la sauvegarde');
       console.error('Erreur lors de la sauvegarde:', err);

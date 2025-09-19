@@ -139,6 +139,8 @@ export default function TravailleurEditModal({
 
     try {
       await onSave(formData)
+      // Fermer le modal après succès
+      onClose()
     } catch (error) {
       console.error('Erreur lors de la sauvegarde:', error)
       setSaveError(error instanceof Error ? error.message : 'Erreur lors de la sauvegarde')

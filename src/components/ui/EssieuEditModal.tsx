@@ -114,7 +114,8 @@ export default function EssieuEditModal({
 
     try {
       await onSave(formData)
-      // onClose() sera appelé automatiquement par la fonction handleSave du parent
+      // Fermer le modal après succès
+      onClose()
     } catch (error) {
       console.error('Erreur lors de la sauvegarde:', error)
       setSaveError(error instanceof Error ? error.message : 'Erreur lors de la sauvegarde')
