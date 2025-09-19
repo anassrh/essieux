@@ -1,6 +1,6 @@
 import { Essieu, Travailleur, StockItem, Panne } from '@/types';
 
-// Helper function to add timestamps
+// Helper function to add timestamps to mock data
 const addTimestamps = (item: Record<string, unknown>): Essieu => ({
   ...item,
   created_at: '2024-01-01T00:00:00Z',
