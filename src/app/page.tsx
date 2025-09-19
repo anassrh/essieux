@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import { mockEssieux, mockTravailleurs, mockStockItems, mockPannes } from '@/data/mockData';
+import { mockEssieux, mockTravailleurs } from '@/data/mockData';
 
 // Icônes pour les cartes
 const ShoppingCartIcon = () => (
@@ -12,11 +12,6 @@ const ShoppingCartIcon = () => (
   </svg>
 );
 
-const EuroIcon = () => (
-  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-  </svg>
-);
 
 const ChartBarIcon = () => (
   <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -42,29 +37,9 @@ const XIcon = () => (
   </svg>
 );
 
-const CalendarIcon = () => (
-  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-  </svg>
-);
 
-const RefreshIcon = () => (
-  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-  </svg>
-);
 
-const ArrowUpIcon = () => (
-  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-  </svg>
-);
 
-const ArrowRightIcon = () => (
-  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-  </svg>
-);
 
 export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState('essieux');
@@ -77,9 +52,9 @@ export default function Dashboard() {
   
   // Calcul des statistiques travailleurs
   const totalTravailleurs = mockTravailleurs.length;
-  const travailleursActifs = mockTravailleurs.filter(t => t.statut === 'actif').length;
-  const travailleursEnConge = mockTravailleurs.filter(t => t.statut === 'en_conge').length;
-  const travailleursInactifs = mockTravailleurs.filter(t => t.statut === 'inactif').length;
+  const travailleursActifs = mockTravailleurs.filter(t => t.statut === 'ACTIF').length;
+  const travailleursEnConge = mockTravailleurs.filter(t => t.statut === 'CONGE').length;
+  const travailleursInactifs = mockTravailleurs.filter(t => t.statut === 'INACTIF').length;
   
   // Calcul des métriques avancées
   const totalInterventions = mockTravailleurs.reduce((sum, t) => sum + t.interventions_realisees, 0);
@@ -92,10 +67,6 @@ export default function Dashboard() {
     return acc;
   }, {} as Record<number, number>);
   
-  const essieuxParWagon = mockEssieux.reduce((acc, e) => {
-    acc[e.wagon] = (acc[e.wagon] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
   
   const ageMoyenCalage = mockEssieux.reduce((sum, e) => sum + e.age_calage_annee, 0) / mockEssieux.length;
   const diametreMoyenRoue = mockEssieux.reduce((sum, e) => sum + e.d_roue, 0) / mockEssieux.length;
@@ -149,7 +120,7 @@ export default function Dashboard() {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Dashboard Essieux</h1>
             <p className="mt-2 text-sm text-gray-600">
-              Vue d'ensemble du parc d'essieux et de l'équipe technique
+              Vue d&apos;ensemble du parc d&apos;essieux et de l&apos;équipe technique
             </p>
           </div>
               <div className="flex space-x-3">
@@ -498,7 +469,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
               <h3 className="text-xl font-bold text-gray-900">Spécialités Techniques</h3>
-              <p className="text-sm text-gray-600 mt-1">Répartition par domaine d'expertise</p>
+              <p className="text-sm text-gray-600 mt-1">Répartition par domaine d&apos;expertise</p>
             </div>
             <div className="p-6">
               <div className="space-y-3">
@@ -529,7 +500,7 @@ export default function Dashboard() {
           {/* Graphique Marques */}
           <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
-              <h3 className="text-xl font-bold text-gray-900">Marques d'Essieux</h3>
+              <h3 className="text-xl font-bold text-gray-900">Marques d&apos;Essieux</h3>
               <p className="text-sm text-gray-600 mt-1">Distribution par fabricant</p>
             </div>
             <div className="p-6">

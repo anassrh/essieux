@@ -14,7 +14,7 @@ export default function LoginForm() {
   const [error, setError] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
 
-  const { signOut } = useAuth()
+  const { } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -57,7 +57,7 @@ export default function LoginForm() {
               Welcome to Essieux
             </h1>
             <p className="text-white text-lg leading-relaxed opacity-90 max-w-md">
-              Gestion complète de votre parc d'essieux avec suivi des révisions, maintenance et équipe technique.
+              Gestion complète de votre parc d&apos;essieux avec suivi des révisions, maintenance et équipe technique.
             </p>
           </div>
         </div>

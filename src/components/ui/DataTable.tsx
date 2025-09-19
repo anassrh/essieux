@@ -1,19 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import AlertBadge from './AlertBadge';
 
 interface Column {
   key: string;
   label: string;
-  render?: (value: any, item: any) => React.ReactNode;
+  render?: (value: unknown, item: unknown) => React.ReactNode;
 }
 
 interface DataTableProps {
-  data: any[];
+  data: unknown[];
   columns: Column[];
-  onEdit?: (item: any) => void;
-  onDelete?: (item: any) => void;
+  onEdit?: (item: unknown) => void;
+  onDelete?: (item: unknown) => void;
   onAdd?: () => void;
   addButtonText?: string;
 }

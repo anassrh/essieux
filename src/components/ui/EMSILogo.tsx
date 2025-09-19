@@ -53,7 +53,7 @@ export default function EMSILogo({ size = 'md', className = '' }: EMSILogoProps)
             ECOLE MAROCAINE DES
           </text>
           <text x="0" y="28" fill="#22c55e" fontSize="11" fontFamily="sans-serif" fontWeight="bold">
-            SCIENCES DE L'INGENIEUR
+            SCIENCES DE L&apos;INGENIEUR
           </text>
           
           {/* Gray line */}

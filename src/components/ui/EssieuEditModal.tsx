@@ -146,7 +146,7 @@ export default function EssieuEditModal({
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-white">
-                {editingEssieu ? 'Modifier l\'essieu' : 'Ajouter un essieu'}
+                {editingEssieu ? 'Modifier l&apos;essieu' : 'Ajouter un essieu'}
               </h2>
               <p className="text-purple-100 text-sm">
                 {editingEssieu ? 'Mise à jour des informations' : 'Nouvel essieu dans le parc'}
@@ -190,7 +190,7 @@ export default function EssieuEditModal({
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <span className="mr-2">🆔</span>
-                Informations d'identification
+                Informations d&apos;identification
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -224,7 +224,7 @@ export default function EssieuEditModal({
                 
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Numéro d'ordre *
+                    Numéro d&apos;ordre *
                   </label>
                   <input
                     type="text"

@@ -40,7 +40,7 @@ export default function StockPage() {
     {
       key: 'statut',
       label: 'Statut',
-      render: (value: any, item: StockItem) => {
+      render: (value: unknown, item: StockItem) => {
         const isLowStock = item.quantite <= item.seuil_minimum;
         return (
           <AlertBadge 
@@ -119,7 +119,7 @@ export default function StockPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Gestion du Stock</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Gérez l'inventaire des pièces et surveillez les niveaux de stock
+            Gérez l&apos;inventaire des pièces et surveillez les niveaux de stock
           </p>
         </div>
 

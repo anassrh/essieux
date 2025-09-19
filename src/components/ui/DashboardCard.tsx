@@ -10,12 +10,6 @@ interface DashboardCardProps {
 }
 
 export default function DashboardCard({ title, value, icon, color, trend }: DashboardCardProps) {
-  const colorClasses = {
-    blue: 'bg-blue-500',
-    green: 'bg-green-500',
-    yellow: 'bg-yellow-500',
-    red: 'bg-red-500'
-  };
 
   const iconBgClasses = {
     blue: 'bg-blue-100',

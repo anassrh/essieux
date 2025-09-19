@@ -117,7 +117,7 @@ export default function TravailleursPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Équipe Technique</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Gestion complète de l'équipe technique et des techniciens
+            Gestion complète de l&apos;équipe technique et des techniciens
           </p>
         </div>
 
@@ -239,7 +239,7 @@ export default function TravailleursPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="date_embauche" className="block text-sm font-medium text-gray-700">
-                  Date d'embauche (DD/M/YYYY)
+                  Date d&apos;embauche (DD/M/YYYY)
                 </label>
                 <input
                   type="text"

@@ -5,7 +5,7 @@ import Layout from '@/components/layout/Layout';
 import DataTable from '@/components/ui/DataTable';
 import Modal from '@/components/ui/Modal';
 import AlertBadge from '@/components/ui/AlertBadge';
-import { Panne, Essieu, Travailleur } from '@/types';
+import { Panne } from '@/types';
 import { mockPannes, mockEssieux, mockTravailleurs } from '@/data/mockData';
 
 export default function PannesPage() {
@@ -13,26 +13,24 @@ export default function PannesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPanne, setEditingPanne] = useState<Panne | null>(null);
   const [formData, setFormData] = useState<Partial<Panne>>({
-    date: '',
+    date_detection: '',
     essieu_id: '',
     description: '',
-    statut: 'ouverte',
-    technicien_id: '',
-    notes: []
+    statut: 'EN_ATTENTE',
+    technicien_id: ''
   });
-  const [newNote, setNewNote] = useState('');
 
   const columns = [
     {
-      key: 'date',
+      key: 'date_detection',
       label: 'Date',
-      render: (value: string) => new Date(value).toLocaleDateString('fr-FR')
+      render: (value: unknown) => new Date(value as string).toLocaleDateString('fr-FR')
     },
     {
       key: 'essieu_id',
       label: 'Essieu',
-      render: (value: string) => {
-        const essieu = mockEssieux.find(e => e.id === value);
+      render: (value: unknown) => {
+        const essieu = mockEssieux.find(e => e.id === value as string);
         return essieu ? essieu.numero_ordre : 'N/A';
       }
     },
@@ -43,13 +41,13 @@ export default function PannesPage() {
     {
       key: 'statut',
       label: 'Statut',
-      render: (value: string) => <AlertBadge status={value} />
+      render: (value: unknown) => <AlertBadge status={value as string} />
     },
     {
       key: 'technicien_id',
       label: 'Technicien',
-      render: (value: string) => {
-        const technicien = mockTravailleurs.find(t => t.id === value);
+      render: (value: unknown) => {
+        const technicien = mockTravailleurs.find(t => t.id === value as string);
         return technicien ? `${technicien.prenom} ${technicien.nom}` : 'N/A';
       }
     }
@@ -58,27 +56,24 @@ export default function PannesPage() {
   const handleAdd = () => {
     setEditingPanne(null);
     setFormData({
-      date: new Date().toISOString().split('T')[0],
+      date_detection: new Date().toISOString().split('T')[0],
       essieu_id: '',
       description: '',
-      statut: 'ouverte',
+      statut: 'EN_ATTENTE',
       technicien_id: '',
-      notes: []
     });
-    setNewNote('');
     setIsModalOpen(true);
   };
 
-  const handleEdit = (panne: Panne) => {
-    setEditingPanne(panne);
-    setFormData(panne);
-    setNewNote('');
+  const handleEdit = (panne: unknown) => {
+    setEditingPanne(panne as Panne);
+    setFormData(panne as Panne);
     setIsModalOpen(true);
   };
 
-  const handleDelete = (panne: Panne) => {
+  const handleDelete = (panne: unknown) => {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette panne ?')) {
-      setPannes(pannes.filter(p => p.id !== panne.id));
+      setPannes(pannes.filter(p => p.id !== (panne as Panne).id));
     }
   };
 
@@ -103,14 +98,12 @@ export default function PannesPage() {
     
     setIsModalOpen(false);
     setFormData({
-      date: '',
+      date_detection: '',
       essieu_id: '',
       description: '',
-      statut: 'ouverte',
+      statut: 'EN_ATTENTE',
       technicien_id: '',
-      notes: []
     });
-    setNewNote('');
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -121,22 +114,6 @@ export default function PannesPage() {
     }));
   };
 
-  const handleAddNote = () => {
-    if (newNote.trim()) {
-      setFormData(prev => ({
-        ...prev,
-        notes: [...(prev.notes || []), newNote.trim()]
-      }));
-      setNewNote('');
-    }
-  };
-
-  const handleRemoveNote = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      notes: prev.notes?.filter((_, i) => i !== index) || []
-    }));
-  };
 
   return (
     <Layout>
@@ -255,40 +232,8 @@ export default function PannesPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Notes d'intervention
+                Notes d&apos;intervention
               </label>
-              <div className="space-y-2">
-                {formData.notes?.map((note, index) => (
-                  <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                    <span className="text-sm">{note}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveNote(index)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={newNote}
-                    onChange={(e) => setNewNote(e.target.value)}
-                    placeholder="Ajouter une note..."
-                    className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleAddNote}
-                    className="px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                  >
-                    Ajouter
-                  </button>
-                </div>
-              </div>
             </div>
 
             <div className="flex justify-end space-x-3 pt-4">

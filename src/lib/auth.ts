@@ -1,5 +1,4 @@
 import { createClient } from './supabase-client'
-import { AuthError } from '@supabase/supabase-js'
 
 export interface AuthUser {
   id: string

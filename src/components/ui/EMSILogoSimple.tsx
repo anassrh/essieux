@@ -35,7 +35,7 @@ export default function EMSILogoSimple({ size = 'md', className = '' }: EMSILogo
         {/* Main text */}
         <div className="text-green-600 text-xs font-bold leading-tight">
           <div>ECOLE MAROCAINE DES</div>
-          <div>SCIENCES DE L'INGENIEUR</div>
+          <div>SCIENCES DE L&apos;INGENIEUR</div>
         </div>
       </div>
     </div>

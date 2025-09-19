@@ -90,7 +90,7 @@ export default function EssieuxPage() {
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Parc Essieux</h1>
             <p className="mt-1 text-sm text-gray-500">
-              Gestion complète du parc d'essieux avec suivi des révisions et maintenance
+              Gestion complète du parc d&apos;essieux avec suivi des révisions et maintenance
             </p>
           </div>
 
