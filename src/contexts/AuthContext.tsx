@@ -25,9 +25,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signOut = async () => {
-    const { signOut: authSignOut } = await import('@/lib/auth')
-    await authSignOut()
-    setUser(null)
+    try {
+      const { signOut: authSignOut } = await import('@/lib/auth')
+      await authSignOut()
+      setUser(null)
+    } catch (error) {
+      console.warn('Erreur lors de la déconnexion:', error)
+      // Forcer la déconnexion locale même en cas d'erreur
+      setUser(null)
+    }
   }
 
   const value = {

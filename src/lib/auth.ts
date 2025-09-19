@@ -64,7 +64,9 @@ export async function signOut() {
   const { error } = await supabase.auth.signOut()
 
   if (error) {
-    throw new Error(error.message)
+    // Ne pas lancer d'erreur si l'utilisateur n'est pas connecté
+    console.warn('Erreur lors de la déconnexion:', error.message)
+    return
   }
 }
 

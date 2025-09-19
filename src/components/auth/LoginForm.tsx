@@ -28,7 +28,25 @@ export default function LoginForm() {
         await signUp({ email, password, fullName })
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue')
+      console.error('Erreur d\'authentification:', err)
+      
+      let errorMessage = 'Une erreur est survenue'
+      
+      if (err instanceof Error) {
+        if (err.message.includes('429')) {
+          errorMessage = 'Trop de tentatives. Veuillez attendre quelques minutes.'
+        } else if (err.message.includes('400')) {
+          errorMessage = 'Données invalides. Vérifiez votre email et mot de passe.'
+        } else if (err.message.includes('403')) {
+          errorMessage = 'Accès refusé. Vérifiez vos permissions.'
+        } else if (err.message.includes('Email not confirmed')) {
+          errorMessage = 'Veuillez confirmer votre email avant de vous connecter.'
+        } else {
+          errorMessage = err.message
+        }
+      }
+      
+      setError(errorMessage)
     } finally {
       setLoading(false)
     }
