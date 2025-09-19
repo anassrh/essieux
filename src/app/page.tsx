@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import { mockEssieux, mockTravailleurs } from '@/data/mockData';
+import { getEssieux, getTravailleurs } from '@/lib/database';
+import { Essieu, Travailleur } from '@/types';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 // Icônes pour les cartes
 const ShoppingCartIcon = () => (
@@ -43,56 +45,83 @@ const XIcon = () => (
 
 export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState('essieux');
+  const [essieux, setEssieux] = useState<Essieu[]>([]);
+  const [travailleurs, setTravailleurs] = useState<Travailleur[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Charger les données au montage du composant
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const [essieuxData, travailleursData] = await Promise.all([
+        getEssieux(),
+        getTravailleurs()
+      ]);
+      setEssieux(essieuxData);
+      setTravailleurs(travailleursData);
+    } catch (err) {
+      console.error('Erreur lors du chargement des données:', err);
+      setError(err instanceof Error ? err.message : 'Erreur lors du chargement des données');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Calcul des statistiques essieux
-  const totalEssieux = mockEssieux.length;
-  const essieuxEnExploitation = mockEssieux.filter(e => e.situation === 'EN EXPLOITATION').length;
-  const essieuxEnDemande = mockEssieux.filter(e => e.situation === 'DEMANDE').length;
-  const essieuxSansSituation = mockEssieux.filter(e => e.situation === null).length;
+  const totalEssieux = essieux.length;
+  const essieuxEnExploitation = essieux.filter(e => e.situation === 'EN EXPLOITATION').length;
+  const essieuxEnDemande = essieux.filter(e => e.situation === 'DEMANDE').length;
+  const essieuxSansSituation = essieux.filter(e => e.situation === null).length;
   
   // Calcul des statistiques travailleurs
-  const totalTravailleurs = mockTravailleurs.length;
-  const travailleursActifs = mockTravailleurs.filter(t => t.statut === 'ACTIF').length;
-  const travailleursEnConge = mockTravailleurs.filter(t => t.statut === 'CONGE').length;
-  const travailleursInactifs = mockTravailleurs.filter(t => t.statut === 'INACTIF').length;
+  const totalTravailleurs = travailleurs.length;
+  const travailleursActifs = travailleurs.filter(t => t.statut === 'ACTIF').length;
+  const travailleursEnConge = travailleurs.filter(t => t.statut === 'CONGE').length;
+  const travailleursInactifs = travailleurs.filter(t => t.statut === 'INACTIF').length;
   
   // Calcul des métriques avancées
-  const totalInterventions = mockTravailleurs.reduce((sum, t) => sum + t.interventions_realisees, 0);
-  const moyenneNote = mockTravailleurs.reduce((sum, t) => sum + t.note_moyenne, 0) / mockTravailleurs.length;
-  const totalEssieuxAssignes = mockTravailleurs.reduce((sum, t) => sum + t.essieux_assignes, 0);
+  const totalInterventions = travailleurs.reduce((sum, t) => sum + t.interventions_realisees, 0);
+  const moyenneNote = travailleurs.length > 0 ? travailleurs.reduce((sum, t) => sum + t.note_moyenne, 0) / travailleurs.length : 0;
+  const totalEssieuxAssignes = travailleurs.reduce((sum, t) => sum + t.essieux_assignes, 0);
   
   // Métriques essieux avancées
-  const essieuxParSerie = mockEssieux.reduce((acc, e) => {
+  const essieuxParSerie = essieux.reduce((acc, e) => {
     acc[e.serie] = (acc[e.serie] || 0) + 1;
     return acc;
   }, {} as Record<number, number>);
   
   
-  const ageMoyenCalage = mockEssieux.reduce((sum, e) => sum + e.age_calage_annee, 0) / mockEssieux.length;
-  const diametreMoyenRoue = mockEssieux.reduce((sum, e) => sum + e.d_roue, 0) / mockEssieux.length;
+  const ageMoyenCalage = essieux.length > 0 ? essieux.reduce((sum, e) => sum + e.age_calage_annee, 0) / essieux.length : 0;
+  const diametreMoyenRoue = essieux.length > 0 ? essieux.reduce((sum, e) => sum + e.d_roue, 0) / essieux.length : 0;
   
   // Métriques travailleurs avancées
-  const travailleursParNiveau = mockTravailleurs.reduce((acc, t) => {
+  const travailleursParNiveau = travailleurs.reduce((acc, t) => {
     acc[t.niveau] = (acc[t.niveau] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
   
-  const meilleurTechnicien = mockTravailleurs.reduce((best, current) => 
+  const meilleurTechnicien = travailleurs.length > 0 ? travailleurs.reduce((best, current) => 
     current.note_moyenne > best.note_moyenne ? current : best
-  );
+  ) : null;
   
-  const technicienPlusProductif = mockTravailleurs.reduce((best, current) => 
+  const technicienPlusProductif = travailleurs.length > 0 ? travailleurs.reduce((best, current) => 
     current.interventions_realisees > best.interventions_realisees ? current : best
-  );
+  ) : null;
   
   // Répartition par spécialité
-  const specialites = mockTravailleurs.reduce((acc, t) => {
+  const specialites = travailleurs.reduce((acc, t) => {
     acc[t.specialite] = (acc[t.specialite] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
   
   // Répartition par marque d'essieux
-  const marques = mockEssieux.reduce((acc, e) => {
+  const marques = essieux.reduce((acc, e) => {
     acc[e.marque] = (acc[e.marque] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -110,6 +139,41 @@ export default function Dashboard() {
     { key: 'marques', label: 'Marques' },
     { key: 'analyses', label: 'Analyses Avancées' }
   ];
+
+  // Gestion du chargement
+  if (loading) {
+    return (
+      <ProtectedRoute>
+        <Layout>
+          <div className="flex items-center justify-center min-h-screen">
+            <LoadingSpinner />
+          </div>
+        </Layout>
+      </ProtectedRoute>
+    );
+  }
+
+  // Gestion des erreurs
+  if (error) {
+    return (
+      <ProtectedRoute>
+        <Layout>
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="text-center">
+              <div className="text-red-600 text-xl mb-4">❌ Erreur</div>
+              <p className="text-gray-600 mb-4">{error}</p>
+              <button
+                onClick={loadData}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Réessayer
+              </button>
+            </div>
+          </div>
+        </Layout>
+      </ProtectedRoute>
+    );
+  }
 
   return (
     <ProtectedRoute>
@@ -646,9 +710,15 @@ export default function Dashboard() {
                         </div>
                         <h4 className="text-lg font-bold text-gray-900">Meilleur Technicien</h4>
                       </div>
-                      <p className="text-xl font-bold text-gray-900 mb-2">{meilleurTechnicien.prenom} {meilleurTechnicien.nom}</p>
-                      <p className="text-sm font-semibold" style={{ color: '#317AC1' }}>Note: {meilleurTechnicien.note_moyenne}/5</p>
-                      <p className="text-sm text-gray-600">Spécialité: {meilleurTechnicien.specialite}</p>
+                      <p className="text-xl font-bold text-gray-900 mb-2">
+                        {meilleurTechnicien ? `${meilleurTechnicien.prenom} ${meilleurTechnicien.nom}` : 'Aucun technicien'}
+                      </p>
+                      <p className="text-sm font-semibold" style={{ color: '#317AC1' }}>
+                        Note: {meilleurTechnicien ? `${meilleurTechnicien.note_moyenne}/10` : 'N/A'}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Spécialité: {meilleurTechnicien ? meilleurTechnicien.specialite : 'N/A'}
+                      </p>
                     </div>
                     <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl border border-gray-200 shadow-sm">
                       <div className="flex items-center mb-4">
@@ -657,9 +727,15 @@ export default function Dashboard() {
                         </div>
                         <h4 className="text-lg font-bold text-gray-900">Plus Productif</h4>
                       </div>
-                      <p className="text-xl font-bold text-gray-900 mb-2">{technicienPlusProductif.prenom} {technicienPlusProductif.nom}</p>
-                      <p className="text-sm font-semibold" style={{ color: '#A7001E' }}>{technicienPlusProductif.interventions_realisees} interventions</p>
-                      <p className="text-sm text-gray-600">Niveau: {technicienPlusProductif.niveau}</p>
+                      <p className="text-xl font-bold text-gray-900 mb-2">
+                        {technicienPlusProductif ? `${technicienPlusProductif.prenom} ${technicienPlusProductif.nom}` : 'Aucun technicien'}
+                      </p>
+                      <p className="text-sm font-semibold" style={{ color: '#A7001E' }}>
+                        {technicienPlusProductif ? `${technicienPlusProductif.interventions_realisees} interventions` : 'N/A'}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Niveau: {technicienPlusProductif ? technicienPlusProductif.niveau : 'N/A'}
+                      </p>
                     </div>
                   </div>
                   <div className="space-y-4">
