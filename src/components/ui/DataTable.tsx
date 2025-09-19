@@ -45,8 +45,12 @@ export default function DataTable({
     const aValue = (a as Record<string, unknown>)[sortField];
     const bValue = (b as Record<string, unknown>)[sortField];
     
-    if ((aValue as string) < (bValue as string)) return sortDirection === 'asc' ? -1 : 1;
-    if ((aValue as string) > (bValue as string)) return sortDirection === 'asc' ? 1 : -1;
+    // Conversion sécurisée en string pour la comparaison
+    const aString = String(aValue ?? '');
+    const bString = String(bValue ?? '');
+    
+    if (aString < bString) return sortDirection === 'asc' ? -1 : 1;
+    if (aString > bString) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
 
