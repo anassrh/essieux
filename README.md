@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚂 Gestion des Essieux - EMSI
 
-## Getting Started
+Application web moderne de gestion du parc d'essieux développée avec Next.js 14, TypeScript, Tailwind CSS et Supabase.
 
-First, run the development server:
+## ✨ Fonctionnalités
+
+- 🔐 **Authentification sécurisée** avec Supabase Auth
+- 📊 **Dashboard interactif** avec métriques en temps réel
+- 🚂 **Gestion complète des essieux** (CRUD avec modal par sections)
+- 👷 **Gestion des techniciens** avec suivi des compétences
+- 📦 **Gestion du stock** avec alertes de seuil
+- 🔧 **Suivi des pannes** et interventions
+- 📱 **Interface responsive** et moderne
+- 📈 **Graphiques et statistiques** avancés
+
+## 🛠️ Technologies
+
+- **Frontend** : Next.js 14, TypeScript, Tailwind CSS
+- **Backend** : Supabase (PostgreSQL, Auth, Real-time)
+- **Déploiement** : Vercel
+- **Base de données** : PostgreSQL via Supabase
+
+## 🚀 Installation rapide
 
 ```bash
+# Cloner le repository
+git clone https://github.com/VOTRE-USERNAME/VOTRE-REPO.git
+cd essieux-management
+
+# Installer les dépendances
+npm install
+
+# Configurer les variables d'environnement
+cp .env.example .env.local
+# Éditer .env.local avec vos clés Supabase
+
+# Démarrer en développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📋 Configuration Supabase
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Créer un projet sur [Supabase](https://supabase.com)
+2. Configurer les variables d'environnement :
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+   ```
+3. Exécuter les migrations SQL dans `supabase/migrations/`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎯 Pages principales
 
-## Learn More
+- **Dashboard** (`/`) - Vue d'ensemble avec métriques
+- **Essieux** (`/essieux`) - Gestion du parc d'essieux
+- **Travailleurs** (`/travailleurs`) - Gestion des techniciens
+- **Stock** (`/stock`) - Gestion des pièces de rechange
+- **Pannes** (`/pannes`) - Suivi des interventions
 
-To learn more about Next.js, take a look at the following resources:
+## 📱 Interface utilisateur
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Design moderne** avec gradient et animations
+- **Modal par sections** pour les formulaires
+- **Tableaux professionnels** avec tri et filtres
+- **Responsive design** pour mobile et desktop
+- **Logos EMSI** intégrés
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔒 Sécurité
 
-## Deploy on Vercel
+- Authentification JWT via Supabase
+- Routes protégées
+- Validation des données côté client et serveur
+- Politiques RLS (Row Level Security)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📊 Fonctionnalités avancées
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Export CSV des données
+- Recherche et filtres avancés
+- Pagination intelligente
+- Gestion d'erreurs complète
+- États de chargement
+- Notifications utilisateur
+
+## 🚀 Déploiement
+
+### Vercel (Recommandé)
+
+1. Connecter le repository GitHub à Vercel
+2. Configurer les variables d'environnement
+3. Déployer automatiquement
+
+### Autres plateformes
+
+- **Netlify** : Compatible avec Next.js
+- **Railway** : Avec base de données intégrée
+- **Heroku** : Avec buildpacks Node.js
+
+## 📖 Documentation
+
+- [Guide d'installation détaillé](GUIDE.md)
+- [Configuration Supabase](README_SUPABASE.md)
+- [Variables d'environnement](env.example)
+
+## 🤝 Contribution
+
+1. Fork le projet
+2. Créer une branche feature
+3. Commit les changements
+4. Push vers la branche
+5. Ouvrir une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+## 👥 Équipe
+
+Développé par l'équipe EMSI - École Marocaine des Sciences de l'Ingénieur
+
+---
+
+**Made with ❤️ by EMSI Team**
